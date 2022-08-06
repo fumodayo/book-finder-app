@@ -17,13 +17,27 @@ const BookList = props => {
   return (
     <Stack textAlign="left">
       {bookData.map(item => {
-        console.log(item)
-        let thumbnail =
+        // define item in book list data
+        const bookThumbnail =
           item.volumeInfo.imageLinks &&
           item.volumeInfo.imageLinks.smallThumbnail
-        if (thumbnail !== undefined) {
+        const bookTitle = item.volumeInfo.title
+        const bookAuthor = item.volumeInfo.authors
+        const bookLanguage = item.volumeInfo.language
+        const bookCategory = item.volumeInfo.categories
+        const bookPublisher = item.volumeInfo.publisher
+        const bookPublisherDate = item.volumeInfo.publishedDate
+        const bookPageCount = item.volumeInfo.pageCount + ` pages`
+        const bookRating = item.volumeInfo.averageRating || '5.0/5.0'
+        const bookDescription = item.volumeInfo.description
+        const checkReaderLink = item.accessInfo.viewability
+        const readerLinkBook = item.accessInfo.webReaderLink
+        const saleLinkBook = item.saleInfo.buyLink
+
+        if (bookThumbnail !== undefined) {
           return (
             <Accordion
+            key={item.id}
               style={{
                 minWidth: '1200px',
                 backgroundColor: '#464657 ',
@@ -38,28 +52,33 @@ const BookList = props => {
                   padding: '20px'
                 }}
               >
-                <img style={{ width: '120px' }} src={thumbnail} alt="book" />
+                <img
+                  style={{ width: '120px' }}
+                  src={bookThumbnail}
+                  alt="book"
+                />
                 <Box sx={{ margin: '2px 0 0 20px' }}>
                   <Typography
                     fontFamily="Catamaran,san-serif"
                     fontSize="24px"
                     color="#c4c4c4"
                   >
-                    {item.volumeInfo.title}
+                    {bookTitle}
                   </Typography>
                   <Typography
                     fontFamily="Catamaran,san-serif"
                     fontSize="18px"
                     color="#fff"
                   >
-                    {item.volumeInfo.authors}
+                    {bookAuthor}
                   </Typography>
                   <Typography
                     fontFamily="Catamaran,san-serif"
                     fontSize="18px"
                     color="#fff"
+                    textTransform="uppercase"
                   >
-                    {item.volumeInfo.language}
+                    {bookLanguage}
                   </Typography>
                 </Box>
               </AccordionSummary>
@@ -74,11 +93,11 @@ const BookList = props => {
                         fontSize="24px"
                         color="#fff"
                       >
-                        {item.volumeInfo.title}
+                        {bookTitle}
                       </Typography>
                       <img
                         style={{ width: '130px', marginLeft: '5px' }}
-                        src={thumbnail}
+                        src={bookThumbnail}
                         alt="book"
                       />
                     </Box>
@@ -94,33 +113,29 @@ const BookList = props => {
                     >
                       <Stack direction="row" spacing={1}>
                         <Typography fontWeight={500}>Categories:</Typography>
-                        <Typography>{item.volumeInfo.categories}</Typography>
+                        <Typography>{bookCategory}</Typography>
                       </Stack>
                       <Stack direction="row" spacing={1}>
                         <Typography fontWeight={500}>Author(s):</Typography>
-                        <Typography>{item.volumeInfo.authors}</Typography>
+                        <Typography>{bookAuthor}</Typography>
                       </Stack>
                       <Stack direction="row" spacing={1}>
                         <Typography fontWeight={500}>Publisher:</Typography>
-                        <Typography>{item.volumeInfo.publisher}</Typography>
+                        <Typography>{bookPublisher}</Typography>
                       </Stack>
                       <Stack direction="row" spacing={1}>
                         <Typography fontWeight={500}>Publish Date:</Typography>
-                        <Typography>{item.volumeInfo.publishedDate}</Typography>
+                        <Typography>{bookPublisherDate}</Typography>
                       </Stack>
                       <Stack direction="row" spacing={1}>
                         <Typography fontWeight={500}>Page Count:</Typography>
-                        <Typography>
-                          {item.volumeInfo.pageCount + ` pages`}
-                        </Typography>
+                        <Typography>{bookPageCount}</Typography>
                       </Stack>
                       <Stack direction="row" spacing={1}>
                         <Typography fontWeight={500}>
                           Average Rating:
                         </Typography>
-                        <Typography>
-                          {item.volumeInfo.averageRating || '5.0/5.0'}
-                        </Typography>
+                        <Typography>{bookRating}</Typography>
                       </Stack>
                     </Stack>
                   </Grid>
@@ -144,17 +159,22 @@ const BookList = props => {
                       marginTop: '10px'
                     }}
                   >
-                    {item.volumeInfo.description}
+                    {bookDescription}
                   </Typography>
                 </Stack>
                 <Stack spacing={2} direction="row">
                   <Button
-                    href={item.accessInfo.webReaderLink}
+                    href={readerLinkBook}
                     variant="contained"
+                    disabled={checkReaderLink === 'NO_PAGES'}
                   >
                     Read a sample
                   </Button>
-                  <Button href={item.saleInfo.buyLink} variant="outlined">
+                  <Button
+                    href={saleLinkBook}
+                    variant="outlined"
+                    disabled={saleLinkBook === undefined}
+                  >
                     Buy this book
                   </Button>
                 </Stack>
