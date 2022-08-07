@@ -33,11 +33,10 @@ const BookList = props => {
         const checkReaderLink = item.accessInfo.viewability
         const readerLinkBook = item.accessInfo.webReaderLink
         const saleLinkBook = item.saleInfo.buyLink
-
-        if (bookThumbnail !== undefined) {
+        if (bookThumbnail) {
           return (
             <Accordion
-            key={item.id}
+              key={item.id}
               style={{
                 minWidth: '1200px',
                 backgroundColor: '#464657 ',
@@ -58,18 +57,10 @@ const BookList = props => {
                   alt="book"
                 />
                 <Box sx={{ margin: '2px 0 0 20px' }}>
-                  <Typography
-                    fontFamily="Catamaran,san-serif"
-                    fontSize="24px"
-                    color="#c4c4c4"
-                  >
+                  <Typography fontSize="24px" color="#c4c4c4">
                     {bookTitle}
                   </Typography>
-                  <Typography
-                    fontFamily="Catamaran,san-serif"
-                    fontSize="18px"
-                    color="#fff"
-                  >
+                  <Typography fontSize="18px" color="#fff">
                     {bookAuthor}
                   </Typography>
                   <Typography
@@ -88,11 +79,7 @@ const BookList = props => {
                 <Grid container>
                   <Grid item xs={4}>
                     <Box>
-                      <Typography
-                        fontFamily="Catamaran,san-serif"
-                        fontSize="24px"
-                        color="#fff"
-                      >
+                      <Typography fontSize="24px" color="#fff">
                         {bookTitle}
                       </Typography>
                       <img
@@ -167,6 +154,7 @@ const BookList = props => {
                     href={readerLinkBook}
                     variant="contained"
                     disabled={checkReaderLink === 'NO_PAGES'}
+                    style={{ backgroundColor: '#cf5bc7' }}
                   >
                     Read a sample
                   </Button>
@@ -174,6 +162,7 @@ const BookList = props => {
                     href={saleLinkBook}
                     variant="outlined"
                     disabled={saleLinkBook === undefined}
+                    style={{ color: '#cf5bc7', borderColor: '#cf5bc7' }}
                   >
                     Buy this book
                   </Button>
@@ -181,6 +170,8 @@ const BookList = props => {
               </AccordionDetails>
             </Accordion>
           )
+        } else {
+          return null
         }
       })}
     </Stack>
